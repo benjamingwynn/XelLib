@@ -2,7 +2,7 @@
 -- >> Created by Benjamin Gwynn
 -- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xelconsole.lua
+-- >>> xellib\xelconsole.lua
 -- >>> A diagnostic in-game developers console for LOVE2D
 
 -- drawConsole (draws the console)
@@ -17,42 +17,58 @@ function drawConsole()
 		-- Draw the console outline
 		love.graphics.setColor(255, 255, 255, 255)
 		love.graphics.rectangle( "line", 50, 50, love.graphics.getWidth() - 100, love.graphics.getHeight() - 100)
-		-- If there are too many messages to fit in the console, rather than carry on printing them outside of the console, do the following: 
-		--if (msgcount * fontheight) + 60 > love.graphics.getHeight() then
-		--	if not consoleoverflow == true then
-		--		consoleoverflow = true -- Make this true, causing the print co-ords to stay static
-		--		consoleoverflow_value = ((msgcount - 1) * fontheight) + 60 -- These are the co-ords we will always print at from now on
-		--	end
-		--	z = z + 1 -- Start removing messages from the screen, starting with message 1
-		--	consolemessage[z] = nil -- Remove the message
-		--end
 		-- Draw the console text
 		for i = 1, msgcount do
 			-- Set the colour
-			if consolemessagecolour[msgcount] == "red" then
+			if consolemessagecolour[i] == "red" then
 				love.graphics.setColor(255, 60, 60, 255)
-			elseif consolemessagecolour[msgcount] == "blue" then
+			elseif consolemessagecolour[i] == "blue" then
 				love.graphics.setColor(60, 100, 255, 255)
-			elseif consolemessagecolour[msgcount] == "pink" then
+			elseif consolemessagecolour[i] == "pink" then
 				love.graphics.setColor(255, 60, 180, 255)
-			elseif consolemessagecolour[msgcount] == "yellow" then
+			elseif consolemessagecolour[i] == "yellow" then
 				love.graphics.setColor(240, 255, 60, 255)
-			elseif consolemessagecolour[msgcount] == "darkred" then
+			elseif consolemessagecolour[i] == "darkred" then
 				love.graphics.setColor(60, 150, 30, 255)
-			elseif consolemessagecolour[msgcount] == "white" then
+			elseif consolemessagecolour[i] == "white" then
 				love.graphics.setColor(255, 255, 255, 255)
 			else
 				love.graphics.setColor(255, 255, 255, 255) -- Set to white for unknown colours
 			end
-			-- Print the text
-			if consoleoverflow == true then
-				love.graphics.print(consolemessage[i], 60, consoleoverflow_value)
+			
+			-- Calculate the position of the text
+			if i - 1 == 0 then
+				lines = 0
 			else
-				love.graphics.print(consolemessage[i], 60, 60 + (i * fontheight))
+				width, lines = font:getWrap(consolemessage[i-1], love.graphics.getWidth() - 120)
 			end
+		
+			if i == 1 then
+				line_total = 1
+			else
+				line_total = line_total + lines
+			end
+			
+			-- Calculate if the text exceeds the console height and if it does clear the screen
+			
+			if line_total * font:getHeight() + 50 >= love.graphics.getHeight() - 100 then
+				consolemessage[1] = consolemessage[i]
+				for q = 2, msgcount do
+					consolemessage[q] = nil
+				end
+				msgcount = 1
+			end
+			
+			if not consolemessage[i] then
+				-- meh
+			else
+				-- Print the text
+				love.graphics.printf(consolemessage[i], 60, line_total * font:getHeight() + 50, love.graphics.getWidth() - 120)
+			end
+			
+			-- Reset the colour
+			love.graphics.setColor(0, 0, 0, 255)
 		end
-		-- Reset the colour
-		love.graphics.setColor(0, 0, 0, 255)
 	end
 end
 

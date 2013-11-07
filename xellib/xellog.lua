@@ -2,7 +2,7 @@
 -- >> Created by Benjamin Gwynn
 -- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellog.lua
+-- >>> xellib\xellog.lua
 -- >>> Clever logging.
 
 -- consoleLog (prints log to in game console and LUA console)
@@ -49,10 +49,10 @@ function consoleLog(fnmessage, fnlevel, fnapp)
 		end
 		
 		-- Print to game console:
-		printToConsole(level .. "/ " .. app .. ": " .. message, logmsgcolour) -- TODO: code printToConsole
+		printToConsole("[" .. level .. "] " .. app .. ": " .. message, logmsgcolour) -- TODO: code printToConsole
 		
 		-- Print to native LUA console:
-		print(level .. "/ " .. app .. ": " .. message)
+		print("[" .. level .. "] " .. app .. ": " .. message)
 		
 	end
 end

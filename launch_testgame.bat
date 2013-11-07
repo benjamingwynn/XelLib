@@ -2,6 +2,7 @@
 
 copy "xellib\*" "%CD%"
 copy "testgame\*" "%CD%"
+copy "external\*" "%CD%"
 
 if %PROCESSOR_ARCHITECTURE%==x86 (
   bin\love\win_x86\love.exe %CD%

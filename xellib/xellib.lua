@@ -2,14 +2,17 @@
 -- >> Created by Benjamin Gwynn
 -- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellib.lua
+-- >>> xellib\xellib.lua
 -- >>> This is the primary XelLib script and is required to be called on game startup.
 
--- Set requirements:
+-- Set XelLib requirements:
 
 require("xellog")
 require("xelconsole")
 require("xelcmd")
+
+-- Set external requirements:
+--require("lua_character_count") --- We no longer need this, but may need it in the future.
 
 -- loadXelLib (loads XelLib stuff so other functions from XelLib can be called)
 
@@ -25,10 +28,18 @@ function loadXelLib()
 	msgcount = 0
 	consoleoverflow = 0
 	z = 0
+	line_total = 0
+	
+	-- Load XelLib font
+	body = love.graphics.setNewFont( "resources/font/Roboto-Regular.ttf")
+	
+	-- Set font
+	love.graphics.setFont(body)
+	font = body -- Font calculations are done using 'font'
 	
 	-- Set XelLib display variables:
 	
-	fontheight = 12
+	--fontheight = 12
 
 	-- Check variables:
 
