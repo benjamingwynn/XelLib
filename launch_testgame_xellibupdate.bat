@@ -1,7 +1,7 @@
 @echo off
 
 copy "xellib\*" "%CD%"
-copy "testgame\*" "%CD%"
+copy "testgame_xellibupdate\*" "%CD%"
 copy "external\*" "%CD%"
 
 if %PROCESSOR_ARCHITECTURE%==x86 (

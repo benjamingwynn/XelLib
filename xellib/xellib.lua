@@ -11,9 +11,6 @@ require("xellog")
 require("xelconsole")
 require("xelcmd")
 
--- Set external requirements:
---require("lua_character_count") --- We no longer need this, but may need it in the future.
-
 -- loadXelLib (loads XelLib stuff so other functions from XelLib can be called)
 
 function loadXelLib()
@@ -25,10 +22,16 @@ function loadXelLib()
 	-- Set XelLib required variables:
 	consolemessage = {}
 	consolemessagecolour = {}
+	cmdp = {}
+	consoleinput = {}
 	msgcount = 0
 	consoleoverflow = 0
 	z = 0
+	b = 0
+	a = 0
 	line_total = 0
+	cmd = ""
+	txcount = 0
 	
 	-- Load XelLib font
 	body = love.graphics.setNewFont( "resources/font/Roboto-Regular.ttf")
@@ -84,6 +87,28 @@ function checkXelLib()
 				loadretry = true
 				loadXelLib()
 			end
+		end
+	end
+end
+
+-- updateXelLibDraw
+function updateXelLibDraw()
+	checkXelLib()
+	if allow_xellib == true then
+		if show_xellib_console == true then
+			drawConsole()
+		end
+	end
+end
+
+-- updateXelLibKeyboard
+function updateXelLibKeyboard(key)
+	checkXelLib()
+	if allow_xellib == true then
+		if key == "`" then
+			toggleXelLibConsole()
+		elseif show_xellib_console == true then
+			consoleInput(key)
 		end
 	end
 end

@@ -31,7 +31,6 @@ function consoleLog(fnmessage, fnlevel, fnapp)
 			app = xellib_game_name
 		elseif not app then
 			-- Assume the game did this, since we have no idea what could have done this.
-			print("2")
 			app = xellib_game_name
 		end
 		
