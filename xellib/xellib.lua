@@ -24,14 +24,20 @@ function loadXelLib()
 	consolemessagecolour = {}
 	cmdp = {}
 	consoleinput = {}
+	xellibcommand = {}
+	cmd_name = {}
+	cmd_function = {}
+	cmd_supports_arguments = {}
+	cmd_hostapp = {}
 	msgcount = 0
 	consoleoverflow = 0
 	z = 0
 	b = 0
 	a = 0
 	line_total = 0
-	cmd = ""
 	txcount = 0
+	cmd_total_count = 0
+	cmd = ""
 	
 	-- Load XelLib font
 	body = love.graphics.setNewFont( "resources/font/Roboto-Regular.ttf")
@@ -39,10 +45,6 @@ function loadXelLib()
 	-- Set font
 	love.graphics.setFont(body)
 	font = body -- Font calculations are done using 'font'
-	
-	-- Set XelLib display variables:
-	
-	--fontheight = 12
 
 	-- Check variables:
 
@@ -62,13 +64,16 @@ function loadXelLib()
 	elseif xellib_requested_version > xellib_version then
 		simpleLog("This version of XelLib is older than the version your game has requested. XelLib will continue to run, however some features may not work as expected.", "E", "XelLib")
 	end
-
+	
 	-- Allow other XelLib scripts to be used:
 	if fatalcalled == true then
 		allow_xellib = false
 	else
 		allow_xellib = true
 	end
+
+	-- Set up XelLib default commands:
+	defaultCommands()
 	
 	-- Say Hello, XelLib:
 	consoleLog("XelLib '" .. xellib_version_name .. "' (" .. xellib_version .. ") is now ready.", "I", "XelLib")

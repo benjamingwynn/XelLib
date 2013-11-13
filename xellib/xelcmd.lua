@@ -5,6 +5,16 @@
 -- >>> xellib\xelcmd.lua
 -- >>> Commands for the XelLib diagnostic console
 
+-- defaultCommands (default command list)
+function defaultCommands()
+	createCommand("exit", "cmdExit", false, "XelLib")
+	createCommand("quit", "cmdQuit", false, "XelLib")
+	createCommand("close", "cmdClose", false, "XelLib")
+	createCommand("kill", "cmdKill", false, "XelLib")
+	createCommand("pinkman", "cmdPinkman", false, "XelLib")
+	createCommand("argtest", "cmdArgumentTest", true, "XelLib")
+end
+
 -- handleCommand (handles text inputted into the console)
 function handleCommand(cmd)
 	-- XelLib must be loaded correctly before using this function.
@@ -15,12 +25,11 @@ function handleCommand(cmd)
 			commandFailed()
 		else
 			cmddone = false
-			xellibCommand("pinkman", "cmdPinkman", false)
-			xellibCommand("exit", "cmdExit", false)
-			xellibCommand("quit", "cmdQuit", false)
-			xellibCommand("close", "cmdClose", false)
-			xellibCommand("kill", "cmdKill", false)
-			xellibCommand("argtest", "cmdArgumentTest", true)
+			for p = 1, cmd_total_count do
+				if cmd == cmd_name[p] then
+					xellibCommand(cmd_name[p], cmd_function[p], cmd_supports_arguments[p])
+				end
+			end
 			if not cmddone then
 				commandFailed()
 			end
@@ -28,35 +37,54 @@ function handleCommand(cmd)
 	end
 end
 
--- xellibCommand (creates a command)
-function xellibCommand(cmd_name, cmd_function, cmd_supports_arguments)
+-- createCommand (creates a command)
+function createCommand(new_cmd_name, new_cmd_function, new_cmd_supports_arguments, new_cmd_hostapp)
 	-- XelLib must be loaded correctly before using this function.
 	checkXelLib()
 	
 	if allow_xellib == true then
-		if string.find(cmd, cmd_name) then
+		if not new_cmd_name or not new_cmd_function or new_cmd_supports_arguments == nil or not new_cmd_hostapp then
+			consoleLog("XelLib couldn't create a command as instructed by an application. Review the command creation arguments.", "E", "XelLib")
+		else
+			cmd_total_count = cmd_total_count + 1
+			cmd_name[cmd_total_count] = new_cmd_name
+			cmd_function[cmd_total_count] = new_cmd_function
+			cmd_supports_arguments[cmd_total_count]= new_cmd_supports_arguments
+			cmd_hostapp[cmd_total_count] = new_cmd_hostapp
+			consoleLog("Created command " .. cmd_name[cmd_total_count] .. " successfully.", "I", "XelLib")
+		end
+	end
+end
+
+-- xellibCommand (execute a command)
+function xellibCommand(fn_cmd_name, fn_cmd_function, fn_cmd_supports_arguments)
+	-- XelLib must be loaded correctly before using this function.
+	checkXelLib()
+	
+	if allow_xellib == true then
+		if string.find(cmd, fn_cmd_name) then
 			cmddone = true
-			if not cmd_supports_arguments then
-				if #cmd_name == #cmd then
-					_G[cmd_function]()
-				elseif #cmd_name > #cmd then
+			if not fn_cmd_supports_arguments then
+				if #fn_cmd_name == #cmd then
+					_G[fn_cmd_function]()
+				elseif #fn_cmd_name > #cmd then
 					printToConsole("This command does not support arguments.")
 				else
-					printToConsole("Command not entered correctly [2]")
+					printToConsole("Command entered incorrectly.")
 				end
 			else
-				if string.find(cmd, cmd_name .. "%s") then
+				if string.find(cmd, fn_cmd_name .. "%s") then
 						-- Find and isolate stuff after space
-						cmd_argument = string.sub(cmd, (#cmd_name + 2))
+						cmd_argument = string.sub(cmd, (#fn_cmd_name + 2))
 						consoleLog(cmd_argument)
-						if #cmd - #cmd_name - #cmd_argument - 1 == 0 then
+						if #cmd - #fn_cmd_name - #cmd_argument - 1 == 0 then
 							-- Launch the command
-							_G[cmd_function](cmd_argument)
+							_G[fn_cmd_function](cmd_argument)
 						else
-							commandFailed()
+							--commandFailed()
 						end
 				else
-					printToConsole("Usage: " .. cmd_name .. " (arguments)")
+					printToConsole("Usage: " .. fn_cmd_name .. " (arguments)")
 				end
 			end
 		end
