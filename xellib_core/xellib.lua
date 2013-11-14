@@ -18,6 +18,7 @@ require("../xellib_component/xellib_update")
 function loadXelLib()
 	-- Set XelLib version variables:
 
+	xellib = "XelLib"
 	xellib_version = 0.1
 	xellib_version_name = "Koala"
 	
@@ -31,11 +32,13 @@ function loadXelLib()
 	cmd_function = {}
 	cmd_supports_arguments = {}
 	cmd_hostapp = {}
+	cmd_argument_individual = {}
 	msgcount = 0
 	consoleoverflow = 0
 	z = 0
 	b = 0
 	a = 0
+	h = 0
 	line_total = 0
 	txcount = 0
 	cmd_total_count = 0

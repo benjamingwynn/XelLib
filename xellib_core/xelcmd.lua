@@ -12,7 +12,8 @@ function defaultCommands()
 	createCommand("close", "cmdClose", false, "XelLib")
 	createCommand("kill", "cmdKill", false, "XelLib")
 	createCommand("pinkman", "cmdPinkman", false, "XelLib")
-	createCommand("argtest", "cmdArgumentTest", true, "XelLib")
+	createCommand("print", "cmdPrint", true, "XelLib")
+	createCommand("setvar", "cmdSetVar", true, "XelLib")
 end
 
 -- handleCommand (handles text inputted into the console)
@@ -38,8 +39,17 @@ function handleCommand(cmd)
 						end
 					else
 						if string.find(cmd, cmd_name[p] .. "%s") then
-								-- Find and isolate stuff after space
+								-- Find and isolate arguments after first space:
 								cmd_argument = string.sub(cmd, (#cmd_name[p] + 2))
+								
+								-- Isolate all arguments individually:
+								cmd_argument_individual_count = 0
+								for i in string.gmatch(cmd_argument, "%S+") do
+									cmd_argument_individual_count = cmd_argument_individual_count + 1
+									cmd_argument_individual[cmd_argument_individual_count] = i
+								end
+								
+								-- If the command is the expected length
 								if #cmd - #cmd_name[p] - #cmd_argument - 1 == 0 then
 									-- Launch the command
 									_G[cmd_function[p]](cmd_argument)
@@ -73,7 +83,7 @@ function createCommand(new_cmd_name, new_cmd_function, new_cmd_supports_argument
 			cmd_function[cmd_total_count] = new_cmd_function
 			cmd_supports_arguments[cmd_total_count]= new_cmd_supports_arguments
 			cmd_hostapp[cmd_total_count] = new_cmd_hostapp
-			consoleLog("Created command " .. cmd_name[cmd_total_count] .. " successfully.", "I", "XelLib")
+			consoleLog("Created command '" .. cmd_name[cmd_total_count] .. "' successfully.", "I", "XelLib")
 		end
 	end
 end
@@ -120,11 +130,21 @@ function cmdClose()
 	end
 end
 
--- cmdArgumentTest (for testing argument support)
-function cmdArgumentTest(testarg)
-	if not testarg then
-		printToConsole("Didn't get an argument.")
+-- cmdPrint (prints text to console)
+function cmdPrint(printarg)
+	printToConsole(printarg)
+end
+
+-- cmdSetVar (sets a variable)
+function cmdSetVar()
+	if not cmd_argument_individual[2] then
+		printToConsole("Usage: setvar [variable to change] [value to change to]", "red")
+	elseif cmd_argument_individual[3] then
+		printToConsole("Usage: setvar [variable to change] [value to change to]", "red")
 	else
-		printToConsole("Argument: " .. testarg)
+		-- Print what's happening
+		printToConsole("Setting '" .. cmd_argument_individual[2] .."' as the value for '" .. cmd_argument_individual[1] .. "'", "green")
+		-- Change the variable
+		cmd_argument_individual[1] = _G[cmd_argument_individual[2]]
 	end
 end
