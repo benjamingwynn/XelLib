@@ -26,8 +26,30 @@ function handleCommand(cmd)
 		else
 			cmddone = false
 			for p = 1, cmd_total_count do
-				if cmd == cmd_name[p] then
-					xellibCommand(cmd_name[p], cmd_function[p], cmd_supports_arguments[p])
+				if string.find(cmd, cmd_name[p]) then
+					cmddone = true
+					if not cmd_supports_arguments[p] then
+						if #cmd_name[p] == #cmd then
+							_G[cmd_function[p]]()
+						elseif #cmd_name[p] > #cmd then
+							printToConsole("This command does not support arguments.")
+						else
+							printToConsole("Command entered incorrectly.")
+						end
+					else
+						if string.find(cmd, cmd_name[p] .. "%s") then
+								-- Find and isolate stuff after space
+								cmd_argument = string.sub(cmd, (#cmd_name[p] + 2))
+								if #cmd - #cmd_name[p] - #cmd_argument - 1 == 0 then
+									-- Launch the command
+									_G[cmd_function[p]](cmd_argument)
+								else
+									commandFailed()
+								end
+						else
+							printToConsole("Usage: " .. cmd_name[p] .. " (arguments)")
+						end
+					end
 				end
 			end
 			if not cmddone then
@@ -52,41 +74,6 @@ function createCommand(new_cmd_name, new_cmd_function, new_cmd_supports_argument
 			cmd_supports_arguments[cmd_total_count]= new_cmd_supports_arguments
 			cmd_hostapp[cmd_total_count] = new_cmd_hostapp
 			consoleLog("Created command " .. cmd_name[cmd_total_count] .. " successfully.", "I", "XelLib")
-		end
-	end
-end
-
--- xellibCommand (execute a command)
-function xellibCommand(fn_cmd_name, fn_cmd_function, fn_cmd_supports_arguments)
-	-- XelLib must be loaded correctly before using this function.
-	checkXelLib()
-	
-	if allow_xellib == true then
-		if string.find(cmd, fn_cmd_name) then
-			cmddone = true
-			if not fn_cmd_supports_arguments then
-				if #fn_cmd_name == #cmd then
-					_G[fn_cmd_function]()
-				elseif #fn_cmd_name > #cmd then
-					printToConsole("This command does not support arguments.")
-				else
-					printToConsole("Command entered incorrectly.")
-				end
-			else
-				if string.find(cmd, fn_cmd_name .. "%s") then
-						-- Find and isolate stuff after space
-						cmd_argument = string.sub(cmd, (#fn_cmd_name + 2))
-						consoleLog(cmd_argument)
-						if #cmd - #fn_cmd_name - #cmd_argument - 1 == 0 then
-							-- Launch the command
-							_G[fn_cmd_function](cmd_argument)
-						else
-							--commandFailed()
-						end
-				else
-					printToConsole("Usage: " .. fn_cmd_name .. " (arguments)")
-				end
-			end
 		end
 	end
 end
