@@ -2,7 +2,7 @@
 -- >> Created by Benjamin Gwynn
 -- >> Licensed under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellib/xellog.lua
+-- >>> xellib_core/xellog.lua
 -- >>> Clever logging.
 
 -- consoleLog (prints log to in game console and LUA console)

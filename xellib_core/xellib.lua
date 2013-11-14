@@ -2,16 +2,14 @@
 -- >> Created by Benjamin Gwynn
 -- >> Licensed under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellib/xellib.lua
+-- >>> xellib_core/xellib.lua
 -- >>> This is the primary XelLib script and is required to be called on game startup.
 
--- Set Xel* requirements:
+-- Load XelLib files:
 
-require("xellib/xellog")
-require("xellib/xelconsole")
-require("xellib/xelcmd")
-
--- Set XelLib_* requirements:
+require("xellib_core/xellog")
+require("xellib_core/xelconsole")
+require("xellib_core/xelcmd")
 
 require("../xellib_component/xellib_update")
 
@@ -44,7 +42,7 @@ function loadXelLib()
 	cmd = ""
 	
 	-- Load XelLib font
-	body = love.graphics.setNewFont( "resources/font/Roboto-Regular.ttf")
+	body = love.graphics.setNewFont( "xellib_resources/font/Roboto-Regular.ttf")
 	
 	-- Set font
 	love.graphics.setFont(body)

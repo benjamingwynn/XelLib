@@ -5,7 +5,7 @@
 -- >>> testgame/main.lua
 -- >>> A small test game to show XelLib in action.
 
-require("xellib/xellib")
+require("xellib_core/xellib")
 
 function love.load()
 	-- Setup XelLib stuff
