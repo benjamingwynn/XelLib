@@ -1,8 +1,8 @@
--- > XelLib - xellog.lua
+-- > XelLib
 -- >> Created by Benjamin Gwynn
--- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
+-- >> Licensed under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellib\xellog.lua
+-- >>> xellib/xellog.lua
 -- >>> Clever logging.
 
 -- consoleLog (prints log to in game console and LUA console)

@@ -1,19 +1,19 @@
--- > XelLib - xellib.lua
+-- > XelLib
 -- >> Created by Benjamin Gwynn
--- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
+-- >> Licensed under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellib\xellib.lua
+-- >>> xellib/xellib.lua
 -- >>> This is the primary XelLib script and is required to be called on game startup.
 
 -- Set Xel* requirements:
 
-require("xellog")
-require("xelconsole")
-require("xelcmd")
+require("xellib/xellog")
+require("xellib/xelconsole")
+require("xellib/xelcmd")
 
 -- Set XelLib_* requirements:
 
-require("xellib_update")
+require("../xellib_component/xellib_update")
 
 -- loadXelLib (loads XelLib stuff so other functions from XelLib can be called)
 

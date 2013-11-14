@@ -1,11 +1,11 @@
--- > XelLib - main.lua
+-- > XelLib
 -- >> Created by Benjamin Gwynn
--- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
+-- >> Licensed under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> testgame_xellibupdate\main.lua
+-- >>> testgame/main.lua
 -- >>> A small test game to show XelLib in action.
 
-require("xellib")
+require("xellib/xellib")
 
 function love.load()
 	-- Setup XelLib stuff

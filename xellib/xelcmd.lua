@@ -1,8 +1,8 @@
--- > XelLib - xelcmd.lua
+-- > XelLib
 -- >> Created by Benjamin Gwynn
--- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
+-- >> Licensed under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellib\xelcmd.lua
+-- >>> xellib/xelcmd.lua
 -- >>> Commands for the XelLib diagnostic console
 
 -- defaultCommands (default command list)

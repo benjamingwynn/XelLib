@@ -1,8 +1,8 @@
--- > XelLib - xellib_update.lua
+-- > XelLib
 -- >> Created by Benjamin Gwynn
--- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
+-- >> Licensed under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellib_component\xellib_update.lua
+-- >>> xellib_component/xellib_update.lua
 -- >>> Handles XelLib updating.
 
 -- updateXelLibDraw

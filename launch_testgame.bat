@@ -1,13 +1,7 @@
 @echo off
 
-echo *** Copying XelLib...
-copy "xellib\*" "%CD%"
-echo *** Copying XelLib components...
-copy "xellib_components\*" "%CD%"
-echo *** Copying extra stuff needed by XelLib...
-copy "external\*" "%CD%"
 echo *** Copying game...
-copy "testgame\*" "%CD%"
+copy "testgame\*.lua" "%CD%"
 
 if %PROCESSOR_ARCHITECTURE%==x86 (
   bin\love\win_x86\love.exe %CD%

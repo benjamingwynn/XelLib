@@ -1,8 +1,8 @@
--- > XelLib - xelconsole.lua
+-- > XelLib
 -- >> Created by Benjamin Gwynn
--- >> Licenced under the GNU GENERAL PUBLIC LICENSE V2
+-- >> Licensed under the GNU GENERAL PUBLIC LICENSE V2
 
--- >>> xellib\xelconsole.lua
+-- >>> xellib/xelconsole.lua
 -- >>> A diagnostic in-game developers console for LOVE2D
 
 -- drawConsole (draws the console)
