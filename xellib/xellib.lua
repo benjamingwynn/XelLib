@@ -5,11 +5,15 @@
 -- >>> xellib\xellib.lua
 -- >>> This is the primary XelLib script and is required to be called on game startup.
 
--- Set XelLib requirements:
+-- Set Xel* requirements:
 
 require("xellog")
 require("xelconsole")
 require("xelcmd")
+
+-- Set XelLib_* requirements:
+
+require("xellib_update")
 
 -- loadXelLib (loads XelLib stuff so other functions from XelLib can be called)
 
@@ -92,28 +96,6 @@ function checkXelLib()
 				loadretry = true
 				loadXelLib()
 			end
-		end
-	end
-end
-
--- updateXelLibDraw
-function updateXelLibDraw()
-	checkXelLib()
-	if allow_xellib == true then
-		if show_xellib_console == true then
-			drawConsole()
-		end
-	end
-end
-
--- updateXelLibKeyboard
-function updateXelLibKeyboard(key)
-	checkXelLib()
-	if allow_xellib == true then
-		if key == "`" then
-			toggleXelLibConsole()
-		elseif show_xellib_console == true then
-			consoleInput(key)
 		end
 	end
 end
