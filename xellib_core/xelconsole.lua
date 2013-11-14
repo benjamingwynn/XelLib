@@ -38,8 +38,8 @@ function drawConsole()
 				love.graphics.setColor(255, 255, 255, 255) -- Set to white for unknown colours
 			end
 			
-			if consolemessage[i] == nil then
-				consoleLog("consolemessage count reaches nil", "XelLib", "E")
+			if not consolemessage[i] then
+				-- consoleLog("Console message was removed from the screen as resolution was changed.", "W", "XelLib")
 			else
 				-- Calculate the position of the text
 				if i - 1 == 0 then
@@ -62,16 +62,13 @@ function drawConsole()
 						consolemessage[q] = nil
 					end
 					msgcount = 1
+				else
+					-- Print the text
+					love.graphics.printf(consolemessage[i], 60, line_total * font:getHeight() + 50, love.graphics.getWidth() - 120)
 				end
-				
-				-- Print the text
-				love.graphics.printf(consolemessage[i], 60, line_total * font:getHeight() + 50, love.graphics.getWidth() - 120)
 			end
 			-- Reset the colour
 			love.graphics.setColor(0, 0, 0, 255)
-			
-			-- Draw consoleInput UI
-			consoleInputUIComponent()
 		end
 	end
 end
@@ -135,6 +132,7 @@ function consoleInputUIComponent()
 		love.graphics.setColor(240, 255, 60, 255)
 		love.graphics.rectangle( "line", 50, love.graphics.getHeight() - 72 , love.graphics.getWidth() - 100, font:getHeight() + 6)
 		-- Draw the text in the box
+		love.graphics.setColor(255, 255, 255, 255)
 		love.graphics.printf(cmd, 52, love.graphics.getHeight() - 72, love.graphics.getWidth())
 		-- Reset the colour
 		love.graphics.setColor(0, 0, 0, 255)

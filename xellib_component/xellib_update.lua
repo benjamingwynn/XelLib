@@ -11,6 +11,7 @@ function updateXelLibDraw()
 	if allow_xellib == true then
 		if show_xellib_console == true then
 			drawConsole()
+			consoleInputUIComponent()
 		end
 	end
 end

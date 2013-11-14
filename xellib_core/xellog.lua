@@ -43,6 +43,8 @@ function consoleLog(fnmessage, fnlevel, fnapp)
 			logmsgcolour = "yellow"		-- Warning messages should be yellow
 		elseif level == "?" then
 			logmsgcolour = "pink"		-- Unknown messages should be pink
+		elseif level == "I" then
+			logmsgcolour = "blue"		-- Information messages should be in white
 		else
 			logmsgcolour = "white"		-- Any other messages should be white
 		end
@@ -59,9 +61,13 @@ end
 -- simpleLog (logs to only LUA console in same style as consoleLog. Doesn't require XelLib to be loaded)
 
 function simpleLog(fnmessage2, fnlevel2, fnapp2)
-	level = fnlevel2
-	commonLog()
-	print(fnlevel2 .. "/ " .. fnapp2 .. ": " .. fnmessage2)
+	if not fnlevel2 then
+		print("?/ Unknown: " .. fnmessage2)
+	else
+		level = fnlevel2
+		commonLog()
+		print(fnlevel2 .. "/ " .. fnapp2 .. ": " .. fnmessage2)
+	end
 end
 
 -- commonLog (Common Logging functions)

@@ -10,8 +10,10 @@
 require("xellib_core/xellog")
 require("xellib_core/xelconsole")
 require("xellib_core/xelcmd")
+require("xellib_core/xelres")
 
 require("../xellib_component/xellib_update")
+require("../xellib_component/xellib_data")
 
 -- loadXelLib (loads XelLib stuff so other functions from XelLib can be called)
 
@@ -43,6 +45,7 @@ function loadXelLib()
 	txcount = 0
 	cmd_total_count = 0
 	cmd = ""
+	fullscreen = false
 	
 	-- Load XelLib font
 	body = love.graphics.setNewFont( "xellib_resources/font/Roboto-Regular.ttf")
@@ -76,6 +79,9 @@ function loadXelLib()
 	else
 		allow_xellib = true
 	end
+	
+	-- Setup XelLib IO stuff
+	dataOnLoad()
 
 	-- Set up XelLib default commands:
 	defaultCommands()

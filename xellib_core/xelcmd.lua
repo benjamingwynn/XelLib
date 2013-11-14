@@ -14,6 +14,8 @@ function defaultCommands()
 	createCommand("pinkman", "cmdPinkman", false, "XelLib")
 	createCommand("print", "cmdPrint", true, "XelLib")
 	createCommand("setvar", "cmdSetVar", true, "XelLib")
+	createCommand("togglefs", "fullscreenToggle", false, "XelLib")
+	createCommand("lorem", "cmdLorem", false, "XelLib")
 end
 
 -- handleCommand (handles text inputted into the console)
@@ -25,6 +27,7 @@ function handleCommand(cmd)
 		if cmd == nil then
 			commandFailed()
 		else
+			printToConsole("> " .. cmd)
 			cmddone = false
 			for p = 1, cmd_total_count do
 				if string.find(cmd, cmd_name[p]) then
@@ -147,4 +150,9 @@ function cmdSetVar()
 		-- Change the variable
 		cmd_argument_individual[1] = _G[cmd_argument_individual[2]]
 	end
+end
+
+-- cmdLorem (prints Lorem Ipsum to the console)
+function cmdLorem()
+	printToConsole("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus placerat dolor et tristique viverra. Praesent sapien metus, porta nec tortor ac, fermentum suscipit orci. Vestibulum nisi augue, auctor in egestas ut, accumsan convallis sapien. Donec pharetra ornare ultrices. Integer tempor nibh ut augue aliquet volutpat. Nulla sem mauris, faucibus at bibendum et, commodo a ipsum. Vestibulum id pulvinar libero. Fusce quam erat, congue at tristique sed, suscipit nec erat. Curabitur viverra mi leo, a rhoncus est venenatis interdum. Duis sodales dictum semper. Vivamus ornare sapien in ultricies molestie. Proin fringilla libero vitae tempor euismod. Ut eleifend ipsum leo, vitae cursus libero sagittis fringilla. Nullam sed eleifend lectus.", "yellow")
 end
