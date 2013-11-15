@@ -27,7 +27,11 @@ function handleCommand(cmd)
 		if cmd == nil then
 			commandFailed()
 		else
+			-- Print the command we did to the console
 			printToConsole("> " .. cmd)
+			-- Keep the command logged in the table: prevconsoleinput
+			cmdhandledcount = cmdhandledcount + 1
+			prevconsoleinput[cmdhandledcount] = cmd
 			cmddone = false
 			for p = 1, cmd_total_count do
 				if string.find(cmd, cmd_name[p]) then

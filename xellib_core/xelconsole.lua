@@ -82,8 +82,6 @@ function consoleInput(txt)
 		if txt == "return" then
 				clearConsoleInput()
 				handleCommand(cmd)
-				a = a + 1
-				consoleinput[a] = cmd
 		elseif txt == "backspace" then
 			if txcount == 0 then
 				-- TODO: add something to show you can not delete any more stuff
@@ -94,22 +92,33 @@ function consoleInput(txt)
 		elseif txt == "escape" then
 			clearConsoleInput()
 			printToConsole("Type 'exit' to view information on closing the console.")
-		elseif txt == "up" then
-			if b == 1 then
-				b = b -- Do not modify b
-			else
-				b = (b - 1) + a -- (check this works with a maths person)
-				cmd = consoleinput[b]
-			end
-		--elseif txt == "left" or "right" then
-			-- do nothing
 		else
 			txcount = txcount + 1
 			cmdp[txcount] = txt
 		end
 		cmd = ""
-		for x = 1, txcount do
-			cmd = cmd .. cmdp[x]
+		if txt == "up" then
+			clearConsoleInput()
+			uppresscount = uppresscount + 1
+			w = cmdhandledcount - uppresscount
+			if w > 0 then
+				cmd = prevconsoleinput[w]
+			else
+				upresscount = -1
+			end
+		elseif txt == "down" then
+			clearConsoleInput()
+			uppresscount = uppresscount - 1
+			w = cmdhandledcount - uppresscount
+			if w < cmdhandledcount + 1 then
+				cmd = prevconsoleinput[w]
+			else
+				upresscount = -1
+			end
+		else
+			for x = 1, txcount do
+				cmd = cmd .. cmdp[x]
+			end
 		end
 	end
 end
@@ -132,8 +141,10 @@ function consoleInputUIComponent()
 		love.graphics.setColor(240, 255, 60, 255)
 		love.graphics.rectangle( "line", 50, love.graphics.getHeight() - 72 , love.graphics.getWidth() - 100, font:getHeight() + 6)
 		-- Draw the text in the box
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.printf(cmd, 52, love.graphics.getHeight() - 72, love.graphics.getWidth())
+		if cmd then
+			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.printf(cmd, 52, love.graphics.getHeight() - 72, love.graphics.getWidth())
+		end
 		-- Reset the colour
 		love.graphics.setColor(0, 0, 0, 255)
 	end

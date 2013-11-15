@@ -35,11 +35,13 @@ function loadXelLib()
 	cmd_supports_arguments = {}
 	cmd_hostapp = {}
 	cmd_argument_individual = {}
+	prevconsoleinput = {}
+	cmdhandledcount = 0
 	msgcount = 0
 	consoleoverflow = 0
 	z = 0
-	b = 0
-	a = 0
+	uppresscount = -1
+	inputcount = 0
 	h = 0
 	line_total = 0
 	txcount = 0
