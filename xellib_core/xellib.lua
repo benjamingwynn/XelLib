@@ -21,8 +21,8 @@ function loadXelLib()
 	-- Set XelLib version variables:
 
 	xellib = "XelLib"
-	xellib_version = 0.1
-	xellib_version_name = "Koala"
+	xellib_version = 0.2
+	xellib_version_name = "Panda"
 	
 	-- Set XelLib required variables:
 	consolemessage = {}
