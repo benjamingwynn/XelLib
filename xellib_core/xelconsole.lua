@@ -68,7 +68,7 @@ function drawConsole()
 				end
 			end
 			-- Reset the colour
-			love.graphics.setColor(0, 0, 0, 255)
+			love.graphics.setColor(255, 255, 255, 255)
 		end
 	end
 end
@@ -146,7 +146,7 @@ function consoleInputUIComponent()
 			love.graphics.printf(cmd, 52, love.graphics.getHeight() - 72, love.graphics.getWidth())
 		end
 		-- Reset the colour
-		love.graphics.setColor(0, 0, 0, 255)
+		love.graphics.setColor(255, 255, 255, 255)
 	end
 end
 
