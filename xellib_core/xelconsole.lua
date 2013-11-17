@@ -11,6 +11,8 @@ function drawConsole()
 	checkXelLib()
 	
 	if allow_xellib == true then
+		-- Set XelLib font
+		love.graphics.setFont(xellib_body_font)
 		-- Draw the console background
 		love.graphics.setColor(0, 0, 0, 200)
 		love.graphics.rectangle( "fill", 50, 50, love.graphics.getWidth() - 100, love.graphics.getHeight() - 100)
@@ -45,7 +47,7 @@ function drawConsole()
 				if i - 1 == 0 then
 					lines = 0
 				else
-					width, lines = font:getWrap(consolemessage[i-1], love.graphics.getWidth() - 120)
+					width, lines = xellib_body_font:getWrap(consolemessage[i-1], love.graphics.getWidth() - 120)
 				end
 			
 				if i == 1 then
@@ -56,7 +58,7 @@ function drawConsole()
 				
 				-- Calculate if the text exceeds the console height and if it does clear the screen
 				
-				if line_total * font:getHeight() + 50 >= love.graphics.getHeight() - 100 then
+				if line_total * xellib_body_font:getHeight() + 50 >= love.graphics.getHeight() - 100 then
 					consolemessage[1] = consolemessage[i]
 					for q = 2, msgcount do
 						consolemessage[q] = nil
@@ -64,7 +66,7 @@ function drawConsole()
 					msgcount = 1
 				else
 					-- Print the text
-					love.graphics.printf(consolemessage[i], 60, line_total * font:getHeight() + 50, love.graphics.getWidth() - 120)
+					love.graphics.printf(consolemessage[i], 60, line_total * xellib_body_font:getHeight() + 50, love.graphics.getWidth() - 120)
 				end
 			end
 			-- Reset the colour
@@ -137,9 +139,11 @@ function consoleInputUIComponent()
 	checkXelLib()
 	
 	if allow_xellib == true then
+		-- Set XelLib font
+		love.graphics.setFont(xellib_body_font)
 		-- Draw text box
 		love.graphics.setColor(240, 255, 60, 255)
-		love.graphics.rectangle( "line", 50, love.graphics.getHeight() - 72 , love.graphics.getWidth() - 100, font:getHeight() + 6)
+		love.graphics.rectangle( "line", 50, love.graphics.getHeight() - 72 , love.graphics.getWidth() - 100, xellib_body_font:getHeight() + 6)
 		-- Draw the text in the box
 		if cmd then
 			love.graphics.setColor(255, 255, 255, 255)

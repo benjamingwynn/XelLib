@@ -50,11 +50,7 @@ function loadXelLib()
 	fullscreen = false
 	
 	-- Load XelLib font
-	body = love.graphics.setNewFont( "xellib_resources/font/Roboto-Regular.ttf")
-	
-	-- Set font
-	love.graphics.setFont(body)
-	font = body -- Font calculations are done using 'font'
+	xellib_body_font = love.graphics.setNewFont( "xellib_resources/font/Roboto-Regular.ttf")
 
 	-- Check variables:
 
