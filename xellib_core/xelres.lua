@@ -5,21 +5,63 @@
 -- >>> xellib_core/xelres.lua
 -- >>> Screen resolution management
 
--- fullscreenToggle (a fullscreen toggle system, originally coded for Natura and modified for XelLib.)
-function fullscreenToggle()
-	fullscreen = not fullscreen
-	if fullscreen == true then
-		if love.filesystem.exists("XelLib/x_res.dat") == true and love.filesystem.exists("XelLib/y_res.dat") == true then -- If settings exist:
-			readScreenRes()
-			love.graphics.setMode(x_res, y_res, true, vsync)
-		else -- If the required settings data doesn't exist:
-			love.graphics.setMode(0, 0, true, vsync) -- 0x0 = auto
-			-- There is currently a bug with LOVE that causes the screen to stay white when AUTOxAUTO is used. Refresh the screen res to fix this:
-			love.graphics.setMode(love.graphics.getWidth(),love.graphics.getHeight(), true, vsync)
-			-- Write screen res
-			writeScreenRes()
-		end
+function setupGraphics()
+	-- Clean up older stuff
+	if love.filesystem.exists("XelLib/y_res.dat") then love.filesystem.remove("XelLib/y_res.dat") end
+	if love.filesystem.exists("XelLib/x_res.dat") then love.filesystem.remove("XelLib/x_res.dat") end
+	
+	if love.filesystem.exists("XelLib/xelres_settings.dat") then
+		consoleLog("Previously created screen data exists.", "I", "XelLib")
+		readGraphicsData()
 	else
-		love.graphics.setMode(800, 600, false, vsync)
+		consoleLog("Previously created screen data does not exist.", "W", "XelLib")
+		createGraphicsData()
 	end
+	refreshGraphics()
+end
+
+function createGraphicsData()
+	consoleLog("Creating graphics data.", "I", "XelLib")
+	xelres_settings = {}
+	xelres_settings.fullscreen = false
+	xelres_settings.resizable = false
+	xelres_settings.fullscreentype = "normal"
+	xelres_settings.vsync = false
+	xelres_settings.fsaa = 0
+	xelres_settings.borderless = false
+	xelres_settings.centered = true
+	xelres_settings.display = 1
+	xelres_settings.minwidth = 800
+	xelres_settings.minheight = 600
+	writeGraphicsData()
+end
+
+function refreshGraphics_default()
+	love.window.setMode(xelres_settings.minwidth, xelres_settings.minheight, xelres_settings)
+end
+
+function refreshGraphics()
+	readGraphicsData()
+	consoleLog("Refreshing screen.", "I", "XelLib")
+	love.window.setMode(love.graphics.getWidth(), love.graphics.getHeight(), xelres_settings)
+end
+
+-- These older functions below have been modified to work with the newer code.
+
+-- fullscreenToggle (quick fullscreen toggle)
+function fullscreenToggle()
+	xelres_settings.fullscreen = not xelres_settings.fullscreen
+	writeGraphicsData() refreshGraphics_default()
+end
+
+-- fsWindowToggle
+function fsWindowToggle()
+	if xelres_settings.fullscreentype == "normal" then
+		consoleLog("Will now change res to fill screen.", "I", "XelLib")
+		xelres_settings.fullscreentype = "desktop"
+	else
+		consoleLog("Will now strech to fill screen.", "I", "XelLib")
+		xelres_settings.fullscreentype = "normal"
+	end
+	writeGraphicsData() refreshGraphics_default()
 end

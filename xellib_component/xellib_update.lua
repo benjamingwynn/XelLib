@@ -5,11 +5,24 @@
 -- >>> xellib_component/xellib_update.lua
 -- >>> Handles XelLib updating.
 
+-- updateXelLibCPU
+function updateXelLibCPU()
+	if xelLibLoaded() then
+		update_called_cpu = true
+		
+		-- Prevent Sound
+		if preventsound then
+			love.audio.pause()
+		end
+	end
+end
+
 -- updateXelLibDraw
 function updateXelLibDraw()
-	checkXelLib()
-	if allow_xellib == true then
-		if show_xellib_console == true then
+	if xelLibLoaded() then
+		update_called_draw = true
+		displayFloatValues()
+		if show_xellib_console then
 			drawConsole()
 			consoleInputUIComponent()
 		end
@@ -18,8 +31,8 @@ end
 
 -- updateXelLibKeyboard
 function updateXelLibKeyboard(key)
-	checkXelLib()
-	if allow_xellib == true then
+	if xelLibLoaded() then
+		update_called_keyboard = true
 		if key == "`" then
 			toggleXelLibConsole()
 		elseif show_xellib_console == true then

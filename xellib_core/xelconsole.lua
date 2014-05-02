@@ -5,12 +5,34 @@
 -- >>> xellib_core/xelconsole.lua
 -- >>> A diagnostic in-game developers console for LOVE2D
 
+-- floatValue (floats a value at the top of the screen) (WIP)
+function registerFloatValue(value)
+	if xelLibLoaded() then
+		if not value then
+			consoleLog("floatValue requires an argument to be passed to it.", "E", "XelLib")
+		else
+			if not floatvalues then floatvalues = {} end
+			if not floatvaluecount then floatvaluecount = -1 end
+			floatvaluecount = floatvaluecount + 1
+			floatvalues[floatvaluecount] = value
+		end
+	end
+end
+
+function displayFloatValues()
+	if xelLibLoaded() then
+		love.graphics.setFont(xellib_body_font)
+		if floatvalues then
+			for i = 0, floatvaluecount do
+					love.graphics.printf(floatvalues[i], 0, i * xellib_body_font:getHeight(), love.graphics.getWidth())
+			end
+		end
+	end
+end
+
 -- drawConsole (draws the console)
 function drawConsole()
-	-- XelLib must be loaded correctly before using this function.
-	checkXelLib()
-	
-	if allow_xellib == true then
+	if xelLibLoaded() then
 		-- Set XelLib font
 		love.graphics.setFont(xellib_body_font)
 		-- Draw the console background
@@ -77,16 +99,13 @@ end
 
 -- consoleInput (handles character input into the console)
 function consoleInput(txt)
-	-- XelLib must be loaded correctly before using this function.
-	checkXelLib()
-	
-	if allow_xellib == true then
+	if xelLibLoaded() then
 		if txt == "return" then
 				clearConsoleInput()
 				handleCommand(cmd)
 		elseif txt == "backspace" then
 			if txcount == 0 then
-				-- TODO: add something to show you can not delete any more stuff
+				-- TODO: add something to show you can not delete any more text
 			else
 				cmdp[txcount] = nil
 				txcount = txcount - 1
@@ -135,10 +154,7 @@ end
 
 -- consoleInputUIComponent (draws the input part of the console)
 function consoleInputUIComponent()
-	-- XelLib must be loaded correctly before using this function.
-	checkXelLib()
-	
-	if allow_xellib == true then
+	if xelLibLoaded() then
 		-- Set XelLib font
 		love.graphics.setFont(xellib_body_font)
 		-- Draw text box
@@ -156,10 +172,7 @@ end
 
 -- printToConsole (prints messages to the console)
 function printToConsole(msg, colour)
-	-- XelLib must be loaded correctly before using this function.
-	checkXelLib()
-	
-	if allow_xellib == true then
+	if xelLibLoaded() then
 		msgcount = msgcount + 1
 		consolemessage[msgcount] = msg
 		if not colour then

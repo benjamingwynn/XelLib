@@ -11,19 +11,24 @@ function defaultCommands()
 	createCommand("quit", "cmdQuit", false, "XelLib")
 	createCommand("close", "cmdClose", false, "XelLib")
 	createCommand("kill", "cmdKill", false, "XelLib")
-	createCommand("pinkman", "cmdPinkman", false, "XelLib")
 	createCommand("print", "cmdPrint", true, "XelLib")
 	createCommand("setvar", "cmdSetVar", true, "XelLib")
 	createCommand("togglefs", "fullscreenToggle", false, "XelLib")
+	createCommand("togglefstype", "fsWindowToggle", false, "XelLib")
 	createCommand("lorem", "cmdLorem", false, "XelLib")
+	createCommand("refreshgfx", "refreshGraphics", false, "XelLib")
+	createCommand("stopsound", "cmdKillSound", false, "XelLib")
+	createCommand("pauseallsounds", "cmdPauseSound", false, "XelLib")
+	createCommand("resumepausedsounds", "cmdResumeSound", false, "XelLib")
+	createCommand("togglesoundprevention", "cmdPreventSound", false, "XelLib")
+	createCommand("commands", "cmdListCommands", false, "XelLib")
+	createCommand("makefloat", "cmdCreateFloat", true, "XelLib")
+	createCommand("makefmany", "cmdCreateMultipleTestFloats", false, "XelLib")
 end
 
 -- handleCommand (handles text inputted into the console)
 function handleCommand(cmd)
-	-- XelLib must be loaded correctly before using this function.
-	checkXelLib()
-	
-	if allow_xellib == true then
+	if xelLibLoaded() then
 		if cmd == nil then
 			commandFailed()
 		else
@@ -78,10 +83,7 @@ end
 
 -- createCommand (creates a command)
 function createCommand(new_cmd_name, new_cmd_function, new_cmd_supports_arguments, new_cmd_hostapp)
-	-- XelLib must be loaded correctly before using this function.
-	checkXelLib()
-	
-	if allow_xellib == true then
+	if xelLibLoaded() then
 		if not new_cmd_name or not new_cmd_function or new_cmd_supports_arguments == nil or not new_cmd_hostapp then
 			consoleLog("XelLib couldn't create a command as instructed by an application. Review the command creation arguments.", "E", "XelLib")
 		else
@@ -90,8 +92,16 @@ function createCommand(new_cmd_name, new_cmd_function, new_cmd_supports_argument
 			cmd_function[cmd_total_count] = new_cmd_function
 			cmd_supports_arguments[cmd_total_count]= new_cmd_supports_arguments
 			cmd_hostapp[cmd_total_count] = new_cmd_hostapp
-			consoleLog("Created command '" .. cmd_name[cmd_total_count] .. "' successfully.", "I", "XelLib")
+			if new_cmd_hostapp == "XelLib" then else
+				consoleLog("Created command '" .. cmd_name[cmd_total_count] .. "' successfully.", "I", "XelLib")
+			end
 		end
+	end
+	
+	if commandlist == nil then
+		commandlist = new_cmd_name
+	else
+		commandlist = commandlist .. ", " .. new_cmd_name
 	end
 end
 
@@ -99,11 +109,6 @@ end
 function commandFailed()
 	printToConsole("Unknown Command.", "darkred") -- Show that the command failed
 	cmddone = false
-end
-
--- cmdPinkman
-function cmdPinkman()
-	printToConsole("'Yeah, Science!'", "pink")
 end
 
 -- cmdExit (information about exiting the console)
@@ -122,7 +127,7 @@ end
 
 -- cmdKill (stops XelLib stuff)
 function cmdKill()
-	consoleLog("XelLib killed by user. Goodbye then :'(", "F", "XelLib")
+	consoleLog("XelLib killed by user.", "F", "XelLib")
 	allow_xellib = false
 	loadretry = true
 	ignorecalls = true
@@ -159,4 +164,56 @@ end
 -- cmdLorem (prints Lorem Ipsum to the console)
 function cmdLorem()
 	printToConsole("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus placerat dolor et tristique viverra. Praesent sapien metus, porta nec tortor ac, fermentum suscipit orci. Vestibulum nisi augue, auctor in egestas ut, accumsan convallis sapien. Donec pharetra ornare ultrices. Integer tempor nibh ut augue aliquet volutpat. Nulla sem mauris, faucibus at bibendum et, commodo a ipsum. Vestibulum id pulvinar libero. Fusce quam erat, congue at tristique sed, suscipit nec erat. Curabitur viverra mi leo, a rhoncus est venenatis interdum. Duis sodales dictum semper. Vivamus ornare sapien in ultricies molestie. Proin fringilla libero vitae tempor euismod. Ut eleifend ipsum leo, vitae cursus libero sagittis fringilla. Nullam sed eleifend lectus.", "yellow")
+end
+
+-- cmdKillSound (kills playing sounds)
+function cmdKillSound()
+	printToConsole("All sounds killed. The game may restart them.", "red")
+	love.audio.stop()
+end
+
+-- cmdPauseSound (pauses playing sounds)
+function cmdPauseSound()
+	printToConsole("All sounds paused.", "yellow")
+	love.audio.pause()
+end
+
+-- cmdResumeSound (resumes paused sounds)
+function cmdResumeSound()
+	printToConsole("All sounds resumed.", "yellow")
+	love.audio.resume()
+end
+
+-- cmdPreventSound (prevents sounds from playing)
+function cmdPreventSound()
+	preventsound = not preventsound
+	if preventsound then
+		printToConsole("Preventing sounds from playing. This pauses a sound every time it starts.", "red")
+	else
+		printToConsole("Sounds no longer prevented from playing.", "green")
+	end
+end
+
+-- cmdListCommands (lists all commands created)
+function cmdListCommands()
+	printToConsole("Commands available: " .. commandlist)
+end
+
+-- cmdCreateTestFloat
+function cmdCreateFloat(floattext)
+	printToConsole("Putting '" .. floattext .. "' into a float.")
+	floatValue(floattext)
+end
+
+function cmdCreateMultipleTestFloats()
+	local c = 0
+	printToConsole("Creating 10 test floats.")
+	while c < 10 do
+		floatValue("Test Float #" .. c)
+		c = c + 1
+	end
+end
+
+function outdatedCommand()
+	printToConsole("This command has not yet been updated for this version of LOVE2D. It may not function correctly.")
 end
